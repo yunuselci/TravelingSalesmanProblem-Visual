@@ -12,21 +12,22 @@ public class Screen extends JPanel {
         g.setColor(Color.RED);
 
 
-        for (int i = 0; i < Main.pointsList.size(); i++) {
+        for (int i = 0; i < Main.originalPointsList.size(); i++) {
 
-            g.fillOval(Main.pointsList.get(i).y / 100, Main.pointsList.get(i).x / 100, 5, 5);
+            g.fillOval(Main.originalPointsList.get(i).x / 100, Main.originalPointsList.get(i).y / 100, 5, 5);
+
         }
 
 
         g.setColor(Color.BLACK);
 
 
-        for (int j = 0; j < Main.pointsList.size()-1; j++) {
-
-
-            //g.drawLine(Main.pointsList.get(j).y/100, Main.pointsList.get(j).x/100, Main.pointsList.get(j + 1).y/100, Main.pointsList.get(j + 1).x/100);
+        for (int j = 0; j < Main.route.size()-1; j++) {
+            g.drawLine((Main.originalPointsList.get(Main.route.get(j)).x )/100,
+                    (Main.originalPointsList.get(Main.route.get(j)).y )/100,
+                    (Main.originalPointsList.get(Main.route.get(j+1)).x ) /100,
+                    (Main.originalPointsList.get(Main.route.get(j+1)).y) /100);
         }
-
 
     }
 }

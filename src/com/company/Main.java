@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class Main {
     final static File tspFile = new File("C:\\Users\\YUNUS\\IdeaProjects\\Cmp\\src\\com\\company\\ca4663.tsp");
     static List<Points> pointsList = new ArrayList<>();
+    static List<Points> originalPointsList = new ArrayList<>();
     static int cityNumber=0;
     static List<Integer> route = new ArrayList<>();
 
@@ -24,6 +25,7 @@ public class Main {
                 int y = Integer.parseInt(String.valueOf(Math.round(Float.parseFloat(details[2]))));
                 Points points = new Points(cityNumber, x, y);
                 pointsList.add(points);
+                originalPointsList.add(points);
 
             }
         } catch (Exception e) {
@@ -53,24 +55,26 @@ public class Main {
             nearest = Integer.MAX_VALUE;
         }
 
-
-        for (Integer integer : route) {
-            System.out.println(integer);
-        }
         //hmap.forEach((key, value) -> System.out.println(key + " " + value));
 
     }
 
 
     public static void main(String[] args) {
+
+        route.add(1); //starting city;
         fileRead();
         JFrame jFrame = new JFrame("Screen");
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Screen screen = new Screen();
         jFrame.add(screen);
         jFrame.setSize(1920, 1080);
-        //jFrame.setVisible(true);
+        jFrame.setVisible(true);
         calculateDistance();
+        for (int i = 0; i < route.size(); i++) {
+            System.out.print(route.get(i) + "->");
+        }
+
 
     }
 }
