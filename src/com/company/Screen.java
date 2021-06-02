@@ -14,7 +14,7 @@ public class Screen extends JPanel {
 
         for (int i = 0; i < Main.originalPointsList.size(); i++) {
 
-            g.fillOval(Main.originalPointsList.get(i).x / 100, Main.originalPointsList.get(i).y / 100, 5, 5);
+            g.fillOval(Main.originalPointsList.get(i).x / 100, (Main.originalPointsList.get(i).y / 100)-500, 5, 5);
 
         }
 
@@ -24,9 +24,9 @@ public class Screen extends JPanel {
 
         for (int j = 0; j < Main.rota.size()-2; j++) {
             g.drawLine((Main.originalPointsList.get(Main.rota.get(j)-1).x )/100,
-                    (Main.originalPointsList.get(Main.rota.get(j)-1).y )/100,
+                    ((Main.originalPointsList.get(Main.rota.get(j)-1).y )/100)-500,
                     (Main.originalPointsList.get(Main.rota.get(j+1)-1).x ) /100,
-                    (Main.originalPointsList.get(Main.rota.get(j+1)-1).y) /100);
+                    ((Main.originalPointsList.get(Main.rota.get(j+1)-1).y )/100)-500);
         }
 
     }
