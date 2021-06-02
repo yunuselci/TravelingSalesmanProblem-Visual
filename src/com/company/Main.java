@@ -1,20 +1,18 @@
 package com.company;
 
+import com.sun.javaws.IconUtil;
 import javax.swing.*;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 public class Main {
     final static File tspFile = new File("C:\\Users\\YUNUS\\IdeaProjects\\Cmp\\src\\com\\company\\ca4663.tsp");
     static List<Points> pointsList = new ArrayList<>();
     static List<Points> originalPointsList = new ArrayList<>();
-    static int mesafe =0;
-    static List<Integer> route = new ArrayList<>();
-
+    static List<Integer> rota = new ArrayList<Integer>();
+    static int a = 0;
+    static Points MaxPoint = new Points(0, 0, 0);
     static void fileRead() {
         try {
             Scanner scanner = new Scanner(Main.tspFile);
@@ -27,73 +25,48 @@ public class Main {
                 Points points = new Points(cityNumber, x, y);
                 pointsList.add(points);
                 originalPointsList.add(points);
-
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    static void fileWrite() throws IOException {
-        List<Point> list = new ArrayList<>();
-        int x,y;
-        for (int i = 0; i < route.size()-10; i++) {
-            x = originalPointsList.get(route.get(i)).x;
-            y = originalPointsList.get(route.get(i)).y;
-            Point point = new Point(x,y);
-            list.add(point);
-        }
-
-
-
-
-        FileWriter fw = new FileWriter("out.tsp");
-        for (int i = 0; i < route.size()-10; i++) {
-            fw.write(list.get(i).x + " " + list.get(i).y + "\n");
-        }
-        fw.close();
-
-
-    }
-
     static void calculateDistance() {
-
-        double distance;
+        double distance = 0;
         double nearest = Integer.MAX_VALUE;
-        int city = 0;
-
-
+        double toplammesafe = 0;
+        rota.add(1);
         /*
-	    dis=Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
-
+     dis=Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
          */
         for (int j = 0; j < pointsList.size(); j++) {
-            for (int i = 1; i < pointsList.size(); i++) {
-                distance = Math.sqrt((pointsList.get(i).x-pointsList.get(j).x)*(pointsList.get(i).x-pointsList.get(j).x)
-                        + (pointsList.get(i).y-pointsList.get(j).y)*(pointsList.get(i).y-pointsList.get(j).y));
-                if(distance < nearest) {
+            double x1 = pointsList.get((rota.get(j)) - 1).x;/*başlangıç  noktası*/
+//            System.out.println("başlangıç noktasının şehir numarası " + rota.get(j));
+            double y1 = pointsList.get((rota.get(j)) - 1).y;
+//            System.out.println("başlangıç noktasının indexi " + ((rota.get(j)) - 1));
+//            System.out.println("silinen şehir" + pointsList.get(rota.get(j) - 1).cityNumber);
+            pointsList.remove((rota.get(j)) - 1);
+            pointsList.add((rota.get(j) - 1), MaxPoint);
+//            System.out.println("point array" + pointsList.get(0));
+//            System.out.println("point array" + pointsList.get(1));
+            for (int i = 0; i < pointsList.size(); i++) {
+                double x2 = pointsList.get(i).x;
+                double y2 = pointsList.get(i).y;
+                distance = Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
+                if (distance < nearest) {
                     nearest = distance;
-                    city = pointsList.get(i).cityNumber;
-                    //route.add(pointsList.get(i).cityNumber);
-                    //pointsList.remove(pointsList.get(i));
-                    mesafe += nearest;
-
+//                    System.out.println("hedef nokta veya yeni başlangıç noktası " + pointsList.get(i).cityNumber);
+                    a = pointsList.get(i).cityNumber;
+//                    System.out.println("-------------");
+                    /*System.out.println("x2 : " + pointsList.get(i).cityNumber + " mesafe: " + nearest);*/
+                    toplammesafe = nearest + toplammesafe;
+                    /* System.out.println(toplammesafe + " nokta " + rota.get(i));*/
                 }
             }
-            route.add(city);
-            pointsList.remove(j);
+            rota.add(a);
             nearest = Integer.MAX_VALUE;
-
         }
-
-
-        //hmap.forEach((key, value) -> System.out.println(key + " " + value));
-
     }
-
-
-    public static void main(String[] args) throws IOException {
-
-        route.add(1); //starting city;
+    public static void main(String[] args) {
         fileRead();
         JFrame jFrame = new JFrame("Screen");
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -102,12 +75,5 @@ public class Main {
         jFrame.setSize(1920, 1080);
         jFrame.setVisible(true);
         calculateDistance();
-        for (Integer integer : route) {
-            System.out.print(integer + "->");
-        }
-        System.out.println(" ");
-        System.out.println(mesafe);
-        fileWrite();
-
     }
 }
