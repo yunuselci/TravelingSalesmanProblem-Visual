@@ -22,7 +22,7 @@ public class Screen extends JPanel {
         g.setColor(Color.BLACK);
 
 
-        for (int j = 0; j < Main.route.size()-1; j++) {
+        for (int j = 0; j < Main.route.size()-2; j++) {
             g.drawLine((Main.originalPointsList.get(Main.route.get(j)).x )/100,
                     (Main.originalPointsList.get(Main.route.get(j)).y )/100,
                     (Main.originalPointsList.get(Main.route.get(j+1)).x ) /100,
