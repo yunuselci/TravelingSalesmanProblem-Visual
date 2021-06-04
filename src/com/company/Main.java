@@ -67,13 +67,16 @@ public class Main {
 
     public static void main(String[] args) {
         fileRead();
+        calculateDistance();
+
         JFrame jFrame = new JFrame("Screen");
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Screen screen = new Screen();
         jFrame.add(screen);
+        jFrame.pack();
+        jFrame.setLocationRelativeTo(null);
         jFrame.setSize(1920, 1080);
         jFrame.setVisible(true);
-        calculateDistance();
         System.out.println("Total Length: " + mesafe);
         for (Integer integer : rota) {
             System.out.print(integer + "->");
