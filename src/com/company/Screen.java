@@ -10,8 +10,8 @@ public class Screen extends JPanel {
         super.paintComponent(graphics);
         this.setBackground(Color.WHITE);
         Graphics2D g = (Graphics2D) graphics;
-        g.translate(0, 1080);
-        g.scale(1.0, -1.0);
+        g.translate(1920, 1080);
+        g.scale(-1.0, -1.0);
 
         g.setColor(Color.RED);
 
@@ -33,8 +33,8 @@ public class Screen extends JPanel {
                     (Main.originalPointsList.get(Main.rota.get(j+1)-1).y ) /100,
                    ((Main.originalPointsList.get(Main.rota.get(j+1)-1).x )/100));
         }
-        g.scale(1.0, -1.0);
-        g.translate(0, -1080);
+        g.scale(-1.0, -1.0);
+        g.translate(-1920, -1080);
         g.drawString("Total Length: "+ Main.mesafe, 1000,100);
 
 

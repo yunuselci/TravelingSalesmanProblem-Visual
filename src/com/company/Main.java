@@ -8,12 +8,12 @@ import java.util.Scanner;
 
 public class Main {
     final static File tspFile = new File("C:\\Users\\YUNUS\\IdeaProjects\\Cmp\\src\\com\\company\\ca4663.tsp");
-    static List<DoublePoints> pointsList = new ArrayList<>();
+    static List<Points> pointsList = new ArrayList<>();
     static List<Points> originalPointsList = new ArrayList<>();
     static List<Integer> rota = new ArrayList<>();
     static int mesafe = 0;
     static int cityNumber = 0;
-    static DoublePoints MaxPoint = new DoublePoints(0, 0, 0);
+    static Points MaxPoint = new Points(0, 0, 0);
 
     static void fileRead() {
         try {
@@ -23,12 +23,9 @@ public class Main {
                 String[] details = line.split(" ");
                 int cityNumber = Integer.parseInt(details[0]);
                 int x = Integer.parseInt(String.valueOf(Math.round(Float.parseFloat(details[1]))));
-                double x1 = Double.parseDouble(details[1]);
                 int y = Integer.parseInt(String.valueOf(Math.round(Float.parseFloat(details[2]))));
-                double y1 = Double.parseDouble(details[2]);
                 Points points = new Points(cityNumber, x, y);
-                DoublePoints doublePoints = new DoublePoints(cityNumber, x1, y1);
-                pointsList.add(doublePoints);
+                pointsList.add(points);
                 originalPointsList.add(points);
             }
         } catch (Exception e) {
@@ -36,12 +33,12 @@ public class Main {
         }
     }
 
-    static void calculateDistance() {
+    static void nearestNeighbor() {
         double distance;
         double nearest = Integer.MAX_VALUE;
 
 
-        rota.add(1);
+        rota.add(1700);
         for (int j = 0; j < pointsList.size() - 1; j++) {
             double x1 = pointsList.get((rota.get(j)) - 1).x;
             double y1 = pointsList.get((rota.get(j)) - 1).y;
@@ -67,7 +64,7 @@ public class Main {
 
     public static void main(String[] args) {
         fileRead();
-        calculateDistance();
+        nearestNeighbor();
 
         JFrame jFrame = new JFrame("Screen");
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
