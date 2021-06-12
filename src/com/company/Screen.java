@@ -16,20 +16,14 @@ public class Screen extends JPanel {
         g.setColor(Color.RED);
 
         for (int i = 0; i < Main.list1.size(); i++) {
-
             if (Main.list1.get(i) == 0) {
-
                 g.setColor(Color.BLUE);
-
             } else {
-
                 g.fillOval(Main.nearestNeighborPointList.get((Main.list1.get(i)) - 1).y / 100, (Main.nearestNeighborPointList.get((Main.list1.get(i)) - 1).x / 100), 5, 5);
-
 //                g.drawString(String.valueOf(Main.nearestNeighborPointList.get((Main.list1.get(i)) - 1).cityNumber),
 //                        (Main.nearestNeighborPointList.get((Main.list1.get(i)) - 1).y / 100),
 //                        Main.nearestNeighborPointList.get((Main.list1.get(i)) - 1).x / 100);
 //
-
             }
 
         }

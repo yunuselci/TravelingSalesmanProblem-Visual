@@ -9,11 +9,16 @@ import java.util.List;
 public class Main {
     final static File tspFile = new File("C:\\Users\\YUNUS\\IdeaProjects\\Cmp\\src\\com\\company\\ca4663.tsp");
     static List<Points> nearestNeighborPointList = new ArrayList<>();
-    static List<Points> originalPointsList = new ArrayList<>();
+    static List<Points> originalPointsListGeneral = new ArrayList<>();
     static List<Integer> routeForNearestNeighbor = new ArrayList<>();
-    static List<Integer> list1 = new ArrayList<>();
-    static HashMap<Integer, Double> hashMap = new HashMap<>();
+    static List<Integer> rota = new ArrayList<>();
 
+    static List<Points> leftSide = new ArrayList<>();
+    static List<Points> rightSide = new ArrayList<>();
+
+    static List<Integer> list1 = new ArrayList<>();
+    static List<Integer> list2 = new ArrayList<>();
+    static HashMap<Integer, Double> hashMap = new HashMap<>();
     static int totalLenght = 0;
     static int cityNumber = 0;
     static Points MaxPoint = new Points(0, 0, 0);
@@ -29,15 +34,15 @@ public class Main {
                 int y = Integer.parseInt(String.valueOf(Math.round(Float.parseFloat(details[2]))));
                 Points points = new Points(cityNumber, x, y);
                 nearestNeighborPointList.add(points);
-                originalPointsList.add(points);
+                originalPointsListGeneral.add(points);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    static void divideAndConq() {
-        for (int k = 1; k < 3; k++) {
+    static void divideAndConq(List<Points> originalPointsList) {
+        for (int k = 1; k < 4; k++) {
             double onetoall = 0;
             double x1, x2, y1, y2;
             double distance;
@@ -58,30 +63,31 @@ public class Main {
                     onetoall = 0;
                 }
             }
-
             Map<Integer, Double> hm1 = sortByValue(hashMap);
-
             int tempCounter = 0;
             for (Map.Entry<Integer, Double> en : hm1.entrySet()) {//4662
                 tempCounter++;
-                if (tempCounter <= (originalPointsList.size() / 2*k)) {
+                if (tempCounter <= (originalPointsList.size() / (2 * k))) {
                     list1.add((en.getKey() + 1));
                     int temp = en.getKey();
                     originalPointsList.remove(temp);
                     originalPointsList.add(en.getKey(), MaxPoint);
                 }
-//            System.out.println("Bekayin Sayisi:" + tempCounter +"  Key = " + (en.getKey() + 1) +
-//                    ", Value = " + en.getValue());
-
+                //  System.out.println("Bekayin Sayisi:" + tempCounter +"  Key = " + (en.getKey() + 1) +
+                //", Value = " + en.getValue());
             }
-            hm1.clear();
             list1.add(0);
-
+//            System.out.println(list1.size());
+            hm1.clear();
+//87000
 
         }
-
+        for (int i = 0; i < originalPointsList.size(); i++) {
+            if (originalPointsList.get(i).x != 0) {
+                list1.add(originalPointsList.get(i).cityNumber);
+            }
+        }
     }
-
 
     //Nearest Neighbor Algorithm
     static void calculateRouteBasedOnNearPoints(List<Points> pList, List<Integer> route, int startingPoint) {
@@ -102,7 +108,6 @@ public class Main {
                 if (distance < nearest) {
                     nearest = distance;
                     cityNumber = points.cityNumber;
-
                 }
             }
             totalLenght += nearest;
@@ -110,7 +115,6 @@ public class Main {
             nearest = Integer.MAX_VALUE;
         }
     }
-
 
     public static HashMap<Integer, Double> sortByValue(HashMap<Integer, Double> hm) {
         // Create a list from elements of HashMap
@@ -126,7 +130,14 @@ public class Main {
         return temp;
     }
 
-//    public static Set<Integer> findDuplicates(List<Integer> listContainingDuplicates)
+    static void printList(List<Points> list) {
+        for (int i = 0; i < list.size(); i++) {
+            System.out.print(list.get(i) + "->");
+        }
+
+    }
+
+    //    public static Set<Integer> findDuplicates(List<Integer> listContainingDuplicates)
 //    {
 //        final Set<Integer> setToReturn = new HashSet<>();
 //        final Set<Integer> set1 = new HashSet<>();
@@ -142,18 +153,32 @@ public class Main {
 //    }
     public static void main(String[] args) {
         fileRead();
+        for (int i = 0; i < originalPointsListGeneral.size(); i++) {
+            if (originalPointsListGeneral.get(i).y >= 87000) {
+                leftSide.add(originalPointsListGeneral.get(i));
+                rightSide.add(MaxPoint);
+            } else {
 
-        divideAndConq();
+                rightSide.add(originalPointsListGeneral.get(i));
+                leftSide.add(MaxPoint);
+            }
+        }
+        divideAndConq(leftSide);
+        printList(leftSide);
+//        calculateRouteBasedOnNearPoints(leftSide,rota,1);
+        //divideAndConq(rightSide);
 
 
 
+        //divideAndConq(rightSide);
+        //divideAndConq(leftSide);
+        // printList(leftSide);
 
 // print the sorted hashmap
 //        for (Map.Entry<Integer, Double> en : hm1.entrySet()) {
 //            System.out.println("Key = " + en.getKey() +
 //                    ", Value = " + en.getValue());
 //        }
-
 //        hashMap.forEach((key, value) -> System.out.println(key + " " + value));
 //        calculateRouteBasedOnNearPoints(nearestNeighborPointList, routeForNearestNeighbor, 1700);
 //
@@ -166,11 +191,9 @@ public class Main {
         jFrame.setLocationRelativeTo(null);
         jFrame.setSize(1920, 1080);
         jFrame.setVisible(true);
-
 //        System.out.println("Total Length: " + totalLenght);
 //        for (Integer integer : routeForNearestNeighbor) {
 //            System.out.print(integer + "->");
 //        }
-
     }
 }
