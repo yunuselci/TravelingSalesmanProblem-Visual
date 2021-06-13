@@ -75,44 +75,27 @@ public class Screen extends JPanel {
         g.setColor(Color.BLACK);
 
 
-        for (int j = 0; j < Main.rotaForLeftUpper.size() - 1; j++) {
-            g.drawLine((Main.originalPointsList.get(Main.rotaForLeftUpper.get(j) - 1).y) / 100,
-                    ((Main.originalPointsList.get(Main.rotaForLeftUpper.get(j) - 1).x) / 100),
-                    (Main.originalPointsList.get(Main.rotaForLeftUpper.get(j + 1) - 1).y) / 100,
-                    ((Main.originalPointsList.get(Main.rotaForLeftUpper.get(j + 1) - 1).x) / 100));
-        }
+//        for (int j = 0; j < Main.rotaForLeft.size() - 1; j++) {
+//            g.drawLine((Main.originalPointsList.get(Main.rotaForLeft.get(j) - 1).y) / 100,
+//                    ((Main.originalPointsList.get(Main.rotaForLeft.get(j) - 1).x) / 100),
+//                    (Main.originalPointsList.get(Main.rotaForLeft.get(j + 1) - 1).y) / 100,
+//                    ((Main.originalPointsList.get(Main.rotaForLeft.get(j + 1) - 1).x) / 100));
+//        }
+//
+//
+//        for (int j = 0; j < Main.rotaForRight.size() - 1; j++) {
+//            g.drawLine((Main.originalPointsList.get(Main.rotaForRight.get(j) - 1).y) / 100,
+//                    ((Main.originalPointsList.get(Main.rotaForRight.get(j) - 1).x) / 100),
+//                    (Main.originalPointsList.get(Main.rotaForRight.get(j + 1) - 1).y) / 100,
+//                    ((Main.originalPointsList.get(Main.rotaForRight.get(j + 1) - 1).x) / 100));
+//        }
 
-        for (int j = 0; j < Main.rotaForLeftLower.size() - 1; j++) {
-            g.drawLine((Main.originalPointsList.get(Main.rotaForLeftLower.get(j) - 1).y) / 100,
-                    ((Main.originalPointsList.get(Main.rotaForLeftLower.get(j) - 1).x) / 100),
-                    (Main.originalPointsList.get(Main.rotaForLeftLower.get(j + 1) - 1).y) / 100,
-                    ((Main.originalPointsList.get(Main.rotaForLeftLower.get(j + 1) - 1).x) / 100));
+        for (int j = 0; j < Main.genelrota.size() - 1; j++) {
+            g.drawLine((Main.originalPointsList.get(Main.genelrota.get(j) - 1).y) / 100,
+                    ((Main.originalPointsList.get(Main.genelrota.get(j) - 1).x) / 100),
+                    (Main.originalPointsList.get(Main.genelrota.get(j + 1) - 1).y) / 100,
+                    ((Main.originalPointsList.get(Main.genelrota.get(j + 1) - 1).x) / 100));
         }
-        for (int j = 0; j < Main.rotaForRightUpper.size() - 1; j++) {
-            g.drawLine((Main.originalPointsList.get(Main.rotaForRightUpper.get(j) - 1).y) / 100,
-                    ((Main.originalPointsList.get(Main.rotaForRightUpper.get(j) - 1).x) / 100),
-                    (Main.originalPointsList.get(Main.rotaForRightUpper.get(j + 1) - 1).y) / 100,
-                    ((Main.originalPointsList.get(Main.rotaForRightUpper.get(j + 1) - 1).x) / 100));
-        }
-        for (int j = 0; j < Main.rotaForRightLower.size() - 1; j++) {
-            g.drawLine((Main.originalPointsList.get(Main.rotaForRightLower.get(j) - 1).y) / 100,
-                    ((Main.originalPointsList.get(Main.rotaForRightLower.get(j) - 1).x) / 100),
-                    (Main.originalPointsList.get(Main.rotaForRightLower.get(j + 1) - 1).y) / 100,
-                    ((Main.originalPointsList.get(Main.rotaForRightLower.get(j + 1) - 1).x) / 100));
-        }
-        for (int j = 0; j < Main.rotaForMidUpper.size() - 1; j++) {
-            g.drawLine((Main.originalPointsList.get(Main.rotaForMidUpper.get(j) - 1).y) / 100,
-                    ((Main.originalPointsList.get(Main.rotaForMidUpper.get(j) - 1).x) / 100),
-                    (Main.originalPointsList.get(Main.rotaForMidUpper.get(j + 1) - 1).y) / 100,
-                    ((Main.originalPointsList.get(Main.rotaForMidUpper.get(j + 1) - 1).x) / 100));
-        }
-        for (int j = 0; j < Main.rotaForMidLower.size() - 1; j++) {
-            g.drawLine((Main.originalPointsList.get(Main.rotaForMidLower.get(j) - 1).y) / 100,
-                    ((Main.originalPointsList.get(Main.rotaForMidLower.get(j) - 1).x) / 100),
-                    (Main.originalPointsList.get(Main.rotaForMidLower.get(j + 1) - 1).y) / 100,
-                    ((Main.originalPointsList.get(Main.rotaForMidLower.get(j + 1) - 1).x) / 100));
-        }
-
 
         g.scale(-1.0, -1.0);
         g.translate(-1920, -1080);

@@ -12,25 +12,13 @@ public class Main {
     static int cityNumber = 0;
     static Points MaxPoint = new Points(0, 0, 0);
 
-    static List<Points> leftUpper = new ArrayList<>();
-    static int leftUpperCounter = 0;
-    static List<Points> leftLower = new ArrayList<>();
-    static int leftLowerCounter = 0;
-    static List<Points> midUpper = new ArrayList<>();
-    static int midUpperCounter = 0;
-    static List<Points> midLower = new ArrayList<>();
-    static int midLowerCounter = 0;
-    static List<Points> rightUpper = new ArrayList<>();
-    static int rightUpperCounter = 0;
-    static List<Points> rightLower = new ArrayList<>();
-    static int rightLowerCounter = 0;
-    static List<Integer> rotaForLeftUpper = new ArrayList<>();
-    static List<Integer> rotaForLeftLower = new ArrayList<>();
-    static List<Integer> rotaForMidUpper = new ArrayList<>();
-    static List<Integer> rotaForMidLower = new ArrayList<>();
-    static List<Integer> rotaForRightUpper = new ArrayList<>();
-    static List<Integer> rotaForRightLower = new ArrayList<>();
-
+    static List<Points> leftSide = new ArrayList<>();
+    static int leftCounter = 0;
+    static List<Points> rightSide = new ArrayList<>();
+    static int rightCounter = 0;
+    static List<Integer> rotaForLeft = new ArrayList<>();
+    static List<Integer> rotaForRight = new ArrayList<>();
+    static List<Integer> genelrota = new ArrayList<>();
     static List<Points> greedyRoute = new ArrayList<>();
 
 
@@ -53,63 +41,20 @@ public class Main {
     }
 
     static void divideAndConq() {
-        int a = 57133, b = 87000, c = 121300;
+        int b = 87000;
         for (int i = 0; i < originalPointsList.size(); i++) {
-            if (originalPointsList.get(i).x >= a && originalPointsList.get(i).y <= b) {
-                rightUpper.add(originalPointsList.get(i));
-                rightUpperCounter++;
-                rightLower.add(MaxPoint);
-                midUpper.add(MaxPoint);
-                midLower.add(MaxPoint);
-                leftUpper.add(MaxPoint);
-                leftLower.add(MaxPoint);
+            if (originalPointsList.get(i).y <= b) {
+                rightSide.add(originalPointsList.get(i));
+                rightCounter++;
+                leftSide.add(MaxPoint);
             }
-            if (originalPointsList.get(i).x < a && originalPointsList.get(i).y <= b) {
-                rightLower.add(originalPointsList.get(i));
-                rightLowerCounter++;
-                rightUpper.add(MaxPoint);
-                midUpper.add(MaxPoint);
-                midLower.add(MaxPoint);
-                leftUpper.add(MaxPoint);
-                leftLower.add(MaxPoint);
-            }
-            if (originalPointsList.get(i).x >= a && originalPointsList.get(i).y > b && originalPointsList.get(i).y < c) {
-                midUpper.add(originalPointsList.get(i));
-                midUpperCounter++;
-                rightUpper.add(MaxPoint);
-                rightLower.add(MaxPoint);
-                midLower.add(MaxPoint);
-                leftUpper.add(MaxPoint);
-                leftLower.add(MaxPoint);
-            }
-            if (originalPointsList.get(i).x < a && originalPointsList.get(i).y > b && originalPointsList.get(i).y < c) {
-                midLower.add(originalPointsList.get(i));
-                midLowerCounter++;
-                rightUpper.add(MaxPoint);
-                rightLower.add(MaxPoint);
-                midUpper.add(MaxPoint);
-                leftUpper.add(MaxPoint);
-                leftLower.add(MaxPoint);
-            }
-            if (originalPointsList.get(i).x >= a && originalPointsList.get(i).y >= c) {
+            if (originalPointsList.get(i).y > b) {
 
-                leftUpper.add(originalPointsList.get(i));
-                leftUpperCounter++;
-                rightUpper.add(MaxPoint);
-                rightLower.add(MaxPoint);
-                midUpper.add(MaxPoint);
-                midLower.add(MaxPoint);
-                leftLower.add(MaxPoint);
+                leftSide.add(originalPointsList.get(i));
+                leftCounter++;
+                rightSide.add(MaxPoint);
             }
-            if (originalPointsList.get(i).x < a && originalPointsList.get(i).y >= c) {
-                leftLower.add(originalPointsList.get(i));
-                leftLowerCounter++;
-                rightUpper.add(MaxPoint);
-                rightLower.add(MaxPoint);
-                midUpper.add(MaxPoint);
-                midLower.add(MaxPoint);
-                leftUpper.add(MaxPoint);
-            }
+
         }
 
     }
@@ -137,20 +82,17 @@ public class Main {
     }
 
     static void greedy() {
-        greedyRouteCreator(rotaForLeftLower, "leftLower");
-        greedyRouteCreator(rotaForLeftUpper, "leftUpper");
-        greedyRouteCreator(rotaForMidLower, "midLower");
-        greedyRouteCreator(rotaForMidUpper, "midUpper");
-        greedyRouteCreator(rotaForRightLower, "rightLower");
-        greedyRouteCreator(rotaForRightUpper, "rightUpper");
-        double x1, x2, y1, y2, distance, nearest = Double.MAX_VALUE;
-        int cityNumber=0,cityNumber1=0;
-        List<Integer> miniRota = new ArrayList<>();
+        greedyRouteCreator(rotaForLeft, "leftSide");
+        greedyRouteCreator(rotaForRight, "rightSide");
 
-        for (int j = 8; j < 10; j++) {
+        double x1, x2, y1, y2, distance=0, nearest = Double.MAX_VALUE;
+        int cityNumber=0,cityNumber1=0;
+
+
+        for (int j = 0; j < 2; j++) {
             x1 = greedyRoute.get(j).x;
             y1 = greedyRoute.get(j).y;
-            for (int i = 10; i < 12; i++) {
+            for (int i = 2; i < 4; i++) {
                 x2 = greedyRoute.get(i).x;
                 y2 = greedyRoute.get(i).y;
                 distance = Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
@@ -158,19 +100,43 @@ public class Main {
                     nearest = distance;
                     cityNumber = greedyRoute.get(i).cityNumber;
                     cityNumber1 = greedyRoute.get(j).cityNumber;
+                    System.out.println(greedyRoute.get(i).cityNumber);
+                    System.out.println(greedyRoute.get(j).cityNumber);
+                    if(i == 2 && j ==0){// başlangıç noktaları bir birine en yakınsa
+                        genelrota.clear();
+                        Collections.reverse(rotaForLeft);
+                        genelrota.addAll(rotaForLeft);
+                        genelrota.addAll(rotaForRight);
+                        Collections.reverse(rotaForLeft);
+                    }else if(j==0 && i==3){ // left side'ın başlangıç noktasıyla right side'ın bitiş noktası
+                        genelrota.clear();
+                        genelrota.addAll(rotaForRight);
+                        genelrota.addAll(rotaForLeft);
+                    }else if(j==1 && i==2){// left side'ın bitiş noktasıyla right side'ın başlangıç noktası
+                        genelrota.clear();
+                        genelrota.addAll(rotaForLeft);
+                        genelrota.addAll(rotaForRight);
+                    }else if(j==1 && i==3){ // ikisinin de bitiş noktası
+                        genelrota.clear();
+                        genelrota.addAll(rotaForLeft);
+                        Collections.reverse(rotaForRight);
+                        genelrota.addAll(rotaForRight);
+                        Collections.reverse(rotaForRight);
 
+                    }
                 }
             }
-            miniRota.clear();
-            miniRota.add(cityNumber);
-            miniRota.add(cityNumber1);
 
             nearest = Integer.MAX_VALUE;
         }
 
-//        for (int i = 0; i < miniRota.size(); i++) {
-//            System.out.println(miniRota.get(i));
-//        }
+        mesafe += distance;
+        for (int i = 0; i < greedyRoute.size(); i++) {
+            System.out.println(greedyRoute.get(i));
+        }
+
+
+
 //LEFT
 //4456
 //4365
@@ -236,28 +202,39 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        List<Integer> bestPoint = new ArrayList<>();
+
 
         fileRead();
         divideAndConq();
-        nearestNeighbor(leftUpper, rotaForLeftUpper, 4456, leftUpperCounter);
-        nearestNeighbor(leftLower, rotaForLeftLower, 3020, leftLowerCounter);
-        nearestNeighbor(rightLower, rotaForRightLower, 507, rightLowerCounter);
-        nearestNeighbor(rightUpper, rotaForRightUpper, 4663, rightUpperCounter);
-        nearestNeighbor(midUpper, rotaForMidUpper, 4547, midUpperCounter);
-        nearestNeighbor(midLower, rotaForMidLower, 2752, midLowerCounter);
+
+        //LEFT
+//4456
+//4365
+//MID
+//4547
+//4294
+//RIGHT
+//4663
+//4154
+
+        nearestNeighbor(leftSide, rotaForLeft, 4456, leftCounter);
+        nearestNeighbor(rightSide, rotaForRight, 4663, rightCounter);
         greedy();
 
 
-//        for (Points points : midLower) {
+
+//
+//        List<Integer> sifirolmayanlar = new ArrayList<>();
+//        List<Integer> bestPoint = new ArrayList<>();
+//        for (Points points : leftSide) {
 //            if (points.x != 0) {
 //                sifirolmayanlar.add(points.cityNumber);
 //            }
 //        }
 //        mesafe = 0;
-//        midLowerCounter = 0;
-//        rotaForMidLower.clear();
-//        midLower.clear();
+//        leftCounter = 0;
+//        rotaForLeft.clear();
+//        leftSide.clear();
 //        originalPointsList.clear();
 //        pointsList.clear();
 //
@@ -267,24 +244,17 @@ public class Main {
 //            nearestNeighbor(midLower, rotaForMidLower, sifirolmayanlar.get(k), midLowerCounter);
 //            bestPoint.add(mesafe);
 //            mesafe = 0;
-//            midLowerCounter = 0;
-//            rotaForMidLower.clear();
-//            midLower.clear();
+//            leftCounter = 0;
+//            rotaForLeft.clear();
+//            leftSide.clear();
 //            originalPointsList.clear();
 //            pointsList.clear();
 //        }
 //        System.out.println("   en iyi mesafe : " + Collections.min(bestPoint) + " en iyi mesafenin indexi :" + bestPoint.indexOf(Collections.min(bestPoint)));
 //        System.out.println(sifirolmayanlar.get(bestPoint.indexOf(Collections.min(bestPoint))));
-
-
-//        nearestNeighbor(leftLower, rotaForLeftLower,leftLowerCounter);
-//        nearestNeighbor(midUpper, rotaForMidUpper,midUpperCounter);
-//        nearestNeighbor(midLower, rotaForMidLower,midLowerCounter);
-//        nearestNeighbor(rightUpper, rotaForRightUpper,rightUpperCounter);
-//        nearestNeighbor(rightLower, rotaForRightLower,rightLowerCounter);
-
-//        for (int i = 0; i < rotaForLeftUpper.size(); i++) {
-//            System.out.println(rotaForLeftUpper.get(i));
+//
+//        for (int i = 0; i < rotaForLeft.size(); i++) {
+//            System.out.println(rotaForLeft.get(i));
 //        }
 
 
