@@ -31,7 +31,7 @@ public class Main {
     static List<Integer> rotaForRightUpper = new ArrayList<>();
     static List<Integer> rotaForRightLower = new ArrayList<>();
 
-    static List<Integer> sifirolmayanlar = new ArrayList<>();
+    static List<Points> greedyRoute = new ArrayList<>();
 
 
     static void fileRead() {
@@ -114,6 +114,75 @@ public class Main {
 
     }
 
+    static void greedyRouteCreator(List<Integer> integerList, String name) {
+        int cityNumber, x = 0, y = 0;
+        cityNumber = integerList.get(0);
+        for (Points points : originalPointsList) {
+            if (points.cityNumber == cityNumber) {
+                x = points.x;
+                y = points.y;
+            }
+        }
+        Points points = new Points(name, cityNumber, x, y);
+        greedyRoute.add(points);
+        cityNumber = integerList.get(integerList.size() - 1);
+        for (Points p : originalPointsList) {
+            if (p.cityNumber == cityNumber) {
+                x = p.x;
+                y = p.y;
+            }
+        }
+        Points points1 = new Points(name, cityNumber, x, y);
+        greedyRoute.add(points1);
+    }
+
+    static void greedy() {
+        greedyRouteCreator(rotaForLeftLower, "leftLower");
+        greedyRouteCreator(rotaForLeftUpper, "leftUpper");
+        greedyRouteCreator(rotaForMidLower, "midLower");
+        greedyRouteCreator(rotaForMidUpper, "midUpper");
+        greedyRouteCreator(rotaForRightLower, "rightLower");
+        greedyRouteCreator(rotaForRightUpper, "rightUpper");
+        double x1, x2, y1, y2, distance, nearest = Double.MAX_VALUE;
+        int cityNumber=0,cityNumber1=0;
+        List<Integer> miniRota = new ArrayList<>();
+
+        for (int j = 8; j < 10; j++) {
+            x1 = greedyRoute.get(j).x;
+            y1 = greedyRoute.get(j).y;
+            for (int i = 10; i < 12; i++) {
+                x2 = greedyRoute.get(i).x;
+                y2 = greedyRoute.get(i).y;
+                distance = Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
+                if (distance < nearest) {
+                    nearest = distance;
+                    cityNumber = greedyRoute.get(i).cityNumber;
+                    cityNumber1 = greedyRoute.get(j).cityNumber;
+
+                }
+            }
+            miniRota.clear();
+            miniRota.add(cityNumber);
+            miniRota.add(cityNumber1);
+
+            nearest = Integer.MAX_VALUE;
+        }
+
+//        for (int i = 0; i < miniRota.size(); i++) {
+//            System.out.println(miniRota.get(i));
+//        }
+//LEFT
+//4456
+//4365
+//MID
+//4547
+//4294
+//RIGHT
+//4663
+//4154
+
+    }
+
     static void nearestNeighbor(List<Points> pList, List<Integer> route, int startingPoint, int cntr) {
         double distance;
         double nearest = Integer.MAX_VALUE;
@@ -171,13 +240,13 @@ public class Main {
 
         fileRead();
         divideAndConq();
-        nearestNeighbor(leftUpper, rotaForLeftUpper, 4456,  leftUpperCounter);
-        nearestNeighbor(leftLower, rotaForLeftLower, 3020 ,  leftLowerCounter);
-        nearestNeighbor(rightLower, rotaForRightLower, 507 ,  rightLowerCounter);
-        nearestNeighbor(rightUpper, rotaForRightUpper, 4663 , rightUpperCounter);
+        nearestNeighbor(leftUpper, rotaForLeftUpper, 4456, leftUpperCounter);
+        nearestNeighbor(leftLower, rotaForLeftLower, 3020, leftLowerCounter);
+        nearestNeighbor(rightLower, rotaForRightLower, 507, rightLowerCounter);
+        nearestNeighbor(rightUpper, rotaForRightUpper, 4663, rightUpperCounter);
         nearestNeighbor(midUpper, rotaForMidUpper, 4547, midUpperCounter);
         nearestNeighbor(midLower, rotaForMidLower, 2752, midLowerCounter);
-
+        greedy();
 
 
 //        for (Points points : midLower) {
