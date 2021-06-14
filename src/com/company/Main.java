@@ -85,8 +85,8 @@ public class Main {
         greedyRouteCreator(rotaForLeft, "leftSide");
         greedyRouteCreator(rotaForRight, "rightSide");
 
-        double x1, x2, y1, y2, distance=0, nearest = Double.MAX_VALUE;
-        int cityNumber=0,cityNumber1=0;
+        double x1, x2, y1, y2, distance = 0, nearest = Double.MAX_VALUE;
+        int cityNumber = 0, cityNumber1 = 0;
 
 
         for (int j = 0; j < 2; j++) {
@@ -100,23 +100,23 @@ public class Main {
                     nearest = distance;
                     cityNumber = greedyRoute.get(i).cityNumber;
                     cityNumber1 = greedyRoute.get(j).cityNumber;
-                    System.out.println(greedyRoute.get(i).cityNumber);
-                    System.out.println(greedyRoute.get(j).cityNumber);
-                    if(i == 2 && j ==0){// başlangıç noktaları bir birine en yakınsa
+//                    System.out.println(greedyRoute.get(i).cityNumber);
+//                    System.out.println(greedyRoute.get(j).cityNumber);
+                    if (i == 2 && j == 0) {// başlangıç noktaları bir birine en yakınsa
                         genelrota.clear();
                         Collections.reverse(rotaForLeft);
                         genelrota.addAll(rotaForLeft);
                         genelrota.addAll(rotaForRight);
                         Collections.reverse(rotaForLeft);
-                    }else if(j==0 && i==3){ // left side'ın başlangıç noktasıyla right side'ın bitiş noktası
+                    } else if (j == 0 && i == 3) { // left side'ın başlangıç noktasıyla right side'ın bitiş noktası
                         genelrota.clear();
                         genelrota.addAll(rotaForRight);
                         genelrota.addAll(rotaForLeft);
-                    }else if(j==1 && i==2){// left side'ın bitiş noktasıyla right side'ın başlangıç noktası
+                    } else if (j == 1 && i == 2) {// left side'ın bitiş noktasıyla right side'ın başlangıç noktası
                         genelrota.clear();
                         genelrota.addAll(rotaForLeft);
                         genelrota.addAll(rotaForRight);
-                    }else if(j==1 && i==3){ // ikisinin de bitiş noktası
+                    } else if (j == 1 && i == 3) { // ikisinin de bitiş noktası
                         genelrota.clear();
                         genelrota.addAll(rotaForLeft);
                         Collections.reverse(rotaForRight);
@@ -131,10 +131,9 @@ public class Main {
         }
 
         mesafe += distance;
-        for (int i = 0; i < greedyRoute.size(); i++) {
-            System.out.println(greedyRoute.get(i));
-        }
-
+//        for (int i = 0; i < greedyRoute.size(); i++) {
+//            System.out.println(greedyRoute.get(i));
+//        }
 
 
 //LEFT
@@ -222,7 +221,6 @@ public class Main {
         greedy();
 
 
-
 //
 //        List<Integer> sifirolmayanlar = new ArrayList<>();
 //        List<Integer> bestPoint = new ArrayList<>();
@@ -270,6 +268,6 @@ public class Main {
 //        for (Integer integer : rota) {
 //            System.out.print(integer + "->");
 //        }
-
     }
+
 }
