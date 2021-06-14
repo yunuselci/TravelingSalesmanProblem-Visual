@@ -1,26 +1,15 @@
 package com.company;
 
 import javax.swing.*;
+import java.io.BufferedReader;
 import java.io.File;
-import java.util.*;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
 
 public class Main {
-    final static File tspFile = new File("C:\\Users\\YUNUS\\IdeaProjects\\Cmp\\src\\com\\company\\ca4663.tsp");
-    static List<Points> pointsList = new ArrayList<>();
-    static List<Points> originalPointsList = new ArrayList<>();
-    static int mesafe = 0;
-    static int cityNumber = 0;
-    static Points MaxPoint = new Points(0, 0, 0);
-
-    static List<Points> leftSide = new ArrayList<>();
-    static int leftCounter = 0;
-    static List<Points> rightSide = new ArrayList<>();
-    static int rightCounter = 0;
-    static List<Integer> rotaForLeft = new ArrayList<>();
-    static List<Integer> rotaForRight = new ArrayList<>();
-    static List<Integer> genelrota = new ArrayList<>();
-    static List<Points> greedyRoute = new ArrayList<>();
-
 
     static void fileRead() {
         try {
@@ -41,22 +30,21 @@ public class Main {
     }
 
     static void divideAndConq() {
-        int b = 87000;
+        int b = 96825;    // x ler ortalaması 49931.48181919371 , y ler ortalaması 90521.19772648503,x e göre orta nokta 62141.66665,y ye göre orta nokta 96825.0
         for (int i = 0; i < originalPointsList.size(); i++) {
             if (originalPointsList.get(i).y <= b) {
                 rightSide.add(originalPointsList.get(i));
                 rightCounter++;
+                visualRightSide.add(originalPointsList.get(i));
                 leftSide.add(MaxPoint);
             }
             if (originalPointsList.get(i).y > b) {
-
                 leftSide.add(originalPointsList.get(i));
                 leftCounter++;
+                visualLeftSide.add(originalPointsList.get(i));
                 rightSide.add(MaxPoint);
             }
-
         }
-
     }
 
     static void greedyRouteCreator(List<Integer> integerList, String name) {
@@ -83,68 +71,33 @@ public class Main {
 
     static void greedy() {
         greedyRouteCreator(rotaForLeft, "leftSide");
-        greedyRouteCreator(rotaForRight, "rightSide");
-
         double x1, x2, y1, y2, distance = 0, nearest = Double.MAX_VALUE;
-        int cityNumber = 0, cityNumber1 = 0;
-
-
         for (int j = 0; j < 2; j++) {
             x1 = greedyRoute.get(j).x;
             y1 = greedyRoute.get(j).y;
-            for (int i = 2; i < 4; i++) {
-                x2 = greedyRoute.get(i).x;
-                y2 = greedyRoute.get(i).y;
+            for (int i = 0; i < rightSide.size(); i++) {
+                x2 = rightSide.get(i).x;
+                y2 = rightSide.get(i).y;
                 distance = Math.sqrt(((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)));
                 if (distance < nearest) {
                     nearest = distance;
-                    cityNumber = greedyRoute.get(i).cityNumber;
-                    cityNumber1 = greedyRoute.get(j).cityNumber;
-//                    System.out.println(greedyRoute.get(i).cityNumber);
-//                    System.out.println(greedyRoute.get(j).cityNumber);
-                    if (i == 2 && j == 0) {// başlangıç noktaları bir birine en yakınsa
+                    secondsstartpoint = rightSide.get(i).cityNumber;
+                    if (j == 0) {// başlangıç noktaları bir birine en yakınsa
                         genelrota.clear();
                         Collections.reverse(rotaForLeft);
                         genelrota.addAll(rotaForLeft);
-                        genelrota.addAll(rotaForRight);
+
                         Collections.reverse(rotaForLeft);
-                    } else if (j == 0 && i == 3) { // left side'ın başlangıç noktasıyla right side'ın bitiş noktası
-                        genelrota.clear();
-                        genelrota.addAll(rotaForRight);
-                        genelrota.addAll(rotaForLeft);
-                    } else if (j == 1 && i == 2) {// left side'ın bitiş noktasıyla right side'ın başlangıç noktası
+                    } else if (j == 1) {// left side'ın bitiş noktasıyla right side'ın başlangıç noktası
                         genelrota.clear();
                         genelrota.addAll(rotaForLeft);
-                        genelrota.addAll(rotaForRight);
-                    } else if (j == 1 && i == 3) { // ikisinin de bitiş noktası
-                        genelrota.clear();
-                        genelrota.addAll(rotaForLeft);
-                        Collections.reverse(rotaForRight);
-                        genelrota.addAll(rotaForRight);
-                        Collections.reverse(rotaForRight);
 
                     }
                 }
             }
-
             nearest = Integer.MAX_VALUE;
         }
-
         mesafe += distance;
-//        for (int i = 0; i < greedyRoute.size(); i++) {
-//            System.out.println(greedyRoute.get(i));
-//        }
-
-
-//LEFT
-//4456
-//4365
-//MID
-//4547
-//4294
-//RIGHT
-//4663
-//4154
 
     }
 
@@ -152,21 +105,8 @@ public class Main {
         double distance;
         double nearest = Integer.MAX_VALUE;
         double x1, y1, x2, y2;
-
-
-//        int startingPoint = 0;
-//
-//        for (Points points : pList) {
-//            if (points.x != 0) {
-//                sifirolmayanlar.add(points.cityNumber);
-//                startingPoint = points.cityNumber;
-//            }
-//        }
-
         route.add(startingPoint);
-
         for (int j = 0; j < cntr - 1; j++) {
-
             x1 = pList.get((route.get(j)) - 1).x;
             y1 = pList.get((route.get(j)) - 1).y;
             pList.remove((route.get(j)) - 1);
@@ -181,80 +121,39 @@ public class Main {
                         cityNumber = pList.get(i).cityNumber;
                     }
                 }
-
-
             }
-
-
             mesafe += nearest;
-
             if (cityNumber != 0) {
                 route.add(cityNumber);
             }
-
             nearest = Integer.MAX_VALUE;
-
-
         }
-
-
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
 
-        fileRead();
-        divideAndConq();
-
-        //LEFT
-//4456
-//4365
-//MID
-//4547
-//4294
-//RIGHT
-//4663
-//4154
-
-        nearestNeighbor(leftSide, rotaForLeft, 4456, leftCounter);
-        nearestNeighbor(rightSide, rotaForRight, 4663, rightCounter);
-        greedy();
-
-
-//
-//        List<Integer> sifirolmayanlar = new ArrayList<>();
-//        List<Integer> bestPoint = new ArrayList<>();
-//        for (Points points : leftSide) {
-//            if (points.x != 0) {
-//                sifirolmayanlar.add(points.cityNumber);
-//            }
-//        }
-//        mesafe = 0;
-//        leftCounter = 0;
-//        rotaForLeft.clear();
-//        leftSide.clear();
-//        originalPointsList.clear();
-//        pointsList.clear();
-//
-//        for (int k = 0; k < sifirolmayanlar.size(); k++) {
-//            fileRead();
-//            divideAndConq();
-//            nearestNeighbor(midLower, rotaForMidLower, sifirolmayanlar.get(k), midLowerCounter);
-//            bestPoint.add(mesafe);
-//            mesafe = 0;
-//            leftCounter = 0;
-//            rotaForLeft.clear();
-//            leftSide.clear();
-//            originalPointsList.clear();
-//            pointsList.clear();
-//        }
-//        System.out.println("   en iyi mesafe : " + Collections.min(bestPoint) + " en iyi mesafenin indexi :" + bestPoint.indexOf(Collections.min(bestPoint)));
-//        System.out.println(sifirolmayanlar.get(bestPoint.indexOf(Collections.min(bestPoint))));
-//
-//        for (int i = 0; i < rotaForLeft.size(); i++) {
-//            System.out.println(rotaForLeft.get(i));
-//        }
-
+        System.out.println("Methods");
+        System.out.println("1) Nearest Neighbor For Base Point");
+        System.out.println("2) Divide and Conq. + Greedy. + Nearest Neighbor");
+        System.out.println("Select Method To Show: ");
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String s = br.readLine();
+        method = Integer.parseInt(s);
+        System.out.println("You selected method: " + method);
+        if (method == 1) {
+            fileRead();
+            nearestNeighbor(pointsList, genelrota, 1700, pointsList.size());
+        }
+        if (method == 2) {
+            fileRead();
+            divideAndConq();
+            nearestNeighbor(leftSide, rotaForLeft, 2690, leftCounter);
+            greedy();
+            nearestNeighbor(rightSide, rotaForRight, secondsstartpoint, rightCounter);
+            genelrota.addAll(rotaForRight);
+            System.out.println(mesafe);
+        }
 
         JFrame jFrame = new JFrame("Screen");
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -264,10 +163,27 @@ public class Main {
         jFrame.setLocationRelativeTo(null);
         jFrame.setSize(1920, 1080);
         jFrame.setVisible(true);
-//        System.out.println("Total Length: " + mesafe);
-//        for (Integer integer : rota) {
-//            System.out.print(integer + "->");
-//        }
+
     }
 
+    //Variables
+    static List<Points> visualLeftSide = new ArrayList<>();//visualization
+    static List<Points> visualRightSide = new ArrayList<>();
+    static int method;
+    final static File tspFile = new File("C:\\Users\\YUNUS\\IdeaProjects\\Cmp\\src\\com\\company\\ca4663.tsp");
+    static List<Points> pointsList = new ArrayList<>();
+    static List<Points> originalPointsList = new ArrayList<>();
+    static int mesafe = 0;
+    static int cityNumber = 0;
+    static int secondsstartpoint = 0;
+    static Points MaxPoint = new Points(0, 0, 0);
+    static List<Points> leftSide = new ArrayList<>();
+    static int leftCounter = 0;
+    static List<Points> rightSide = new ArrayList<>();
+    static int rightCounter = 0;
+    static List<Integer> rotaForLeft = new ArrayList<>();
+    static List<Integer> rotaForRight = new ArrayList<>();
+    static List<Integer> genelrota = new ArrayList<>();
+    static List<Points> greedyRoute = new ArrayList<>();
 }
+
