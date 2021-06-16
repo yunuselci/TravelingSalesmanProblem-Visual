@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -83,21 +85,21 @@ public class Main {
                     nearest = distance;
                     secondsstartpoint = rightSide.get(i).cityNumber;
                     if (j == 0) {// başlangıç noktaları bir birine en yakınsa
-                        genelrota.clear();
+                        theTour.clear();
                         Collections.reverse(rotaForLeft);
-                        genelrota.addAll(rotaForLeft);
+                        theTour.addAll(rotaForLeft);
 
                         Collections.reverse(rotaForLeft);
                     } else if (j == 1) {// left side'ın bitiş noktasıyla right side'ın başlangıç noktası
-                        genelrota.clear();
-                        genelrota.addAll(rotaForLeft);
+                        theTour.clear();
+                        theTour.addAll(rotaForLeft);
 
                     }
                 }
             }
             nearest = Integer.MAX_VALUE;
         }
-        mesafe += distance;
+        totalLenght += distance;
 
     }
 
@@ -122,12 +124,20 @@ public class Main {
                     }
                 }
             }
-            mesafe += nearest;
+            totalLenght += nearest;
             if (cityNumber != 0) {
                 route.add(cityNumber);
             }
             nearest = Integer.MAX_VALUE;
         }
+    }
+
+    static void printTheTour(List<Integer> list){
+        System.out.println("The Tour:");
+        for (Integer integer : list) {
+            System.out.print(integer + "->");
+        }
+        System.out.println(" ");
     }
 
     public static void main(String[] args) throws Exception {
@@ -141,9 +151,13 @@ public class Main {
         String s = br.readLine();
         method = Integer.parseInt(s);
         System.out.println("You selected method: " + method);
+        long start = System.currentTimeMillis(); // Start to calc. the result
+
         if (method == 1) {
             fileRead();
-            nearestNeighbor(pointsList, genelrota, 1700, pointsList.size());
+            nearestNeighbor(pointsList, theTour, 1700, pointsList.size());
+            printTheTour(theTour);
+
         }
         if (method == 2) {
             fileRead();
@@ -151,8 +165,8 @@ public class Main {
             nearestNeighbor(leftSide, rotaForLeft, 2690, leftCounter);
             greedy();
             nearestNeighbor(rightSide, rotaForRight, secondsstartpoint, rightCounter);
-            genelrota.addAll(rotaForRight);
-            System.out.println(mesafe);
+            theTour.addAll(rotaForRight);
+            printTheTour(theTour);
         }
 
         JFrame jFrame = new JFrame("Screen");
@@ -163,6 +177,10 @@ public class Main {
         jFrame.setLocationRelativeTo(null);
         jFrame.setSize(1920, 1080);
         jFrame.setVisible(true);
+        long end = System.currentTimeMillis();
+
+        NumberFormat formatter = new DecimalFormat("#0.00000");
+        System.out.print("Execution time is " + formatter.format((end - start) / 1000d) + " seconds");
 
     }
 
@@ -173,7 +191,7 @@ public class Main {
     final static File tspFile = new File("C:\\Users\\YUNUS\\IdeaProjects\\Cmp\\src\\com\\company\\ca4663.tsp");
     static List<Points> pointsList = new ArrayList<>();
     static List<Points> originalPointsList = new ArrayList<>();
-    static int mesafe = 0;
+    static int totalLenght = 0;
     static int cityNumber = 0;
     static int secondsstartpoint = 0;
     static Points MaxPoint = new Points(0, 0, 0);
@@ -183,7 +201,7 @@ public class Main {
     static int rightCounter = 0;
     static List<Integer> rotaForLeft = new ArrayList<>();
     static List<Integer> rotaForRight = new ArrayList<>();
-    static List<Integer> genelrota = new ArrayList<>();
+    static List<Integer> theTour = new ArrayList<>();
     static List<Points> greedyRoute = new ArrayList<>();
 }
 
