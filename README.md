@@ -3,6 +3,7 @@ This project solves the traveling salesman problem with 3 different approaches. 
 1) Nearest Neighbor Algorithm
 2) Greedy Algorithm
 3) Divide and Conquer Strategy
+
 https://github.com/norvig/pytudes/blob/main/ipynb/TSP.ipynb -> described in this notebook.
 
 The project also provides a visual representation of the solution, we used Java-Swing for this.
